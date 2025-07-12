@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\Business\\Projects\\Thmanyah\\Localization\\Localization.csproj",
+      "projectUniqueName": "E:\\Business\\MohammedKhalid38\\Thmanyah\\Localization\\Localization.csproj",
       "projectName": "Localization",
-      "projectPath": "E:\\Business\\Projects\\Thmanyah\\Localization\\Localization.csproj",
+      "projectPath": "E:\\Business\\MohammedKhalid38\\Thmanyah\\Localization\\Localization.csproj",
       "packagesPath": "C:\\Users\\Mohammed Khalid\\.nuget\\packages\\",
-      "outputPath": "E:\\Business\\Projects\\Thmanyah\\Localization\\obj\\",
+      "outputPath": "E:\\Business\\MohammedKhalid38\\Thmanyah\\Localization\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

@@ -5831,11 +5831,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\Business\\Projects\\Thmanyah\\Application\\Application.csproj",
+      "projectUniqueName": "E:\\Business\\MohammedKhalid38\\Thmanyah\\Application\\Application.csproj",
       "projectName": "Application",
-      "projectPath": "E:\\Business\\Projects\\Thmanyah\\Application\\Application.csproj",
+      "projectPath": "E:\\Business\\MohammedKhalid38\\Thmanyah\\Application\\Application.csproj",
       "packagesPath": "C:\\Users\\Mohammed Khalid\\.nuget\\packages\\",
-      "outputPath": "E:\\Business\\Projects\\Thmanyah\\Application\\obj\\",
+      "outputPath": "E:\\Business\\MohammedKhalid38\\Thmanyah\\Application\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -5856,17 +5856,17 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "E:\\Business\\Projects\\Thmanyah\\Domain\\Domain.csproj": {
-              "projectPath": "E:\\Business\\Projects\\Thmanyah\\Domain\\Domain.csproj"
+            "E:\\Business\\MohammedKhalid38\\Thmanyah\\Domain\\Domain.csproj": {
+              "projectPath": "E:\\Business\\MohammedKhalid38\\Thmanyah\\Domain\\Domain.csproj"
             },
-            "E:\\Business\\Projects\\Thmanyah\\Infrastructure\\Infrastructure.csproj": {
-              "projectPath": "E:\\Business\\Projects\\Thmanyah\\Infrastructure\\Infrastructure.csproj"
+            "E:\\Business\\MohammedKhalid38\\Thmanyah\\Infrastructure\\Infrastructure.csproj": {
+              "projectPath": "E:\\Business\\MohammedKhalid38\\Thmanyah\\Infrastructure\\Infrastructure.csproj"
             },
-            "E:\\Business\\Projects\\Thmanyah\\Localization\\Localization.csproj": {
-              "projectPath": "E:\\Business\\Projects\\Thmanyah\\Localization\\Localization.csproj"
+            "E:\\Business\\MohammedKhalid38\\Thmanyah\\Localization\\Localization.csproj": {
+              "projectPath": "E:\\Business\\MohammedKhalid38\\Thmanyah\\Localization\\Localization.csproj"
             },
-            "E:\\Business\\Projects\\Thmanyah\\Persistence\\Persistence.csproj": {
-              "projectPath": "E:\\Business\\Projects\\Thmanyah\\Persistence\\Persistence.csproj"
+            "E:\\Business\\MohammedKhalid38\\Thmanyah\\Persistence\\Persistence.csproj": {
+              "projectPath": "E:\\Business\\MohammedKhalid38\\Thmanyah\\Persistence\\Persistence.csproj"
             }
           }
         }
