@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Thmanyah.CMS")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+efa1a9477f4e13f8d36ae7219e2b7642fe7fdb49")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ad7e454ba70726d1b4571747b32e20e374f5fb39")]
 [assembly: System.Reflection.AssemblyProductAttribute("Thmanyah.CMS")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Thmanyah.CMS")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

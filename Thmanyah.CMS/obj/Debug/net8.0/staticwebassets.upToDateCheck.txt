@@ -1,4 +1,4 @@
-wwwroot\assets\css\site.css
+wwwroot\assets\css\style.css
 wwwroot\assets\images\favicon.ico
 wwwroot\assets\images\locales\ar.svg
 wwwroot\assets\images\locales\de.svg
@@ -565,5 +565,4 @@ wwwroot\assets\plugins\summernote\summernote-lite.min.css
 wwwroot\assets\plugins\summernote\summernote-lite.min.js
 wwwroot\assets\plugins\sweetalert2\sweetalert2.all.min.js
 wwwroot\assets\plugins\sweetalert2\sweetalert2.min.css
-wwwroot\favicon.ico
 wwwroot\logs\eight-cms-20250712.log

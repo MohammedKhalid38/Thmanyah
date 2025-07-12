@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Thmanyah.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ad7e454ba70726d1b4571747b32e20e374f5fb39")]
 [assembly: System.Reflection.AssemblyProductAttribute("Thmanyah.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Thmanyah.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
