@@ -3,3 +3,10 @@
 ################################################################################
 
 /.vs
+/Application/obj/Debug/net8.0
+/Domain/obj/Debug/net8.0
+/Infrastructure/obj/Debug/net8.0
+/Localization/obj/Debug/net8.0
+/Persistence/obj/Debug/net8.0
+/Thmanyah.API/obj/Debug/net8.0
+/Thmanyah.CMS/obj/Debug/net8.0
