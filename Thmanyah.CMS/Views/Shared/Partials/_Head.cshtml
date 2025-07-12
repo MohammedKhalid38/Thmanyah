@@ -1,0 +1,24 @@
+﻿@{
+    Layout = null;
+    bool isRightDirection = _sessionProvider.IsRightDirection();
+}
+<meta charset="utf-8">
+<meta name="description" content="">
+<meta name="keywords" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="shortcut icon" href="/favicon.ico" />
+@if (isRightDirection)
+{
+    <link href="/assets/css/style.bundle.rtl.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/plugins/plugins.bundle.rtl.css" rel="stylesheet" type="text/css" />
+}
+else
+{
+    <link href="/assets/css/style.bundle.css" rel="stylesheet" type="text/css">
+    <link href="/assets/plugins/plugins.bundle.css" rel="stylesheet" type="text/css">
+}
+<link href="/assets/plugins/select2/css/select2.min.css" rel="stylesheet" />
+<link href="/assets/plugins/sweetalert2/sweetalert2.min.css" rel="stylesheet" />
+<link href="/assets/plugins/summernote/summernote-lite.min.css" rel="stylesheet" />
+<link href="/assets/css/style.css" rel="stylesheet" asp-append-version="true" />
+<script src="https://www.google.com/recaptcha/api.js?render=@_configuration["GoogleReCaptcha:SiteKey"]"></script>

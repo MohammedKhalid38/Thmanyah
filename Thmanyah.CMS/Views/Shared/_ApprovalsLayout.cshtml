@@ -1,0 +1,16 @@
+﻿@{
+    Layout = "_Layout";
+    ViewData["HasBreadcrumb"] = true;
+}
+@* @section breadcrumb {
+    <ol class="breadcrumb fs-5 fw-semibold">
+        <li class="breadcrumb-item"><a href="/" class="fw-bold"><i class="ki-duotone ki-home fs-4"></i> @Resources.HomePage</a></li>
+        <li><i class="ki-duotone ki-right mx-1"><span class="path1"></span><span class="path2"></span></i></li>
+        <li class="breadcrumb-item"><a href="/@_sessionProvider.CurrentControllerName/" class="fw-bold">@ViewData["Title"]</a></li>
+        <li><i class="ki-duotone ki-right mx-1"><span class="path1"></span><span class="path2"></span></i></li>
+        <li class="breadcrumb-item">@Resources.ApprovalsPage</li>
+    </ol>
+}
+ *@
+
+@RenderBody()

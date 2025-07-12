@@ -1,0 +1,57 @@
+﻿@* @{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+ *@
+
+
+<div class="container py-5">
+    <div class="row mb-4">
+        <div class="col-md-8 mx-auto">
+            <h2 class="mb-3 text-center">استكشف المحتوى</h2>
+            <input type="text" class="form-control" placeholder="البحث عن..." id="searchInput">
+        </div>
+    </div>
+    <div class="row mb-4">
+        <div class="col-md-8 mx-auto text-center">
+            <div class="btn-group" role="group" aria-label="Filters">
+                <input type="hidden" id="post-category-id" />
+                <button type="button" class="btn btn-outline-dark active btn-post-category" data-id="">الكل</button>
+                @foreach(var item in _postCategoryService.GetAllPublished())
+                {
+                    <button type="button" class="btn btn-outline-dark btn-post-category" data-id="@item.Id">@item.Name.GetValue()</button>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="row" id="resultsContainer"></div>
+</div>
+
+
+@section Scripts {
+    <script>
+        GetAllPosts();
+        $(document).on('keyup','#searchInput',function(){
+            GetAllPosts();
+        });
+          $(document).on('click','.btn-post-category',function(){
+                    $('#post-category-id').val($(this).attr('data-id'))
+                  $('.btn-post-category').each(function() {
+                    $(this).removeClass('active');
+                   });
+            GetAllPosts();
+            $(this).addClass('active');
+        });
+
+        function GetAllPosts(){
+            $.post('/home/list?query=' + $('#searchInput').val() + '&postCategoryId=' + $('#post-category-id').val(),function(data){
+
+            $('#resultsContainer').html(data);
+            })
+        }
+    </script>
+}

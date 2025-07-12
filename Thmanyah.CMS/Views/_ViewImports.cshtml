@@ -1,0 +1,39 @@
+﻿@using Thmanyah.CMS
+@using Thmanyah.CMS.Models
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@using Microsoft.AspNetCore.Http.Extensions
+@using Microsoft.AspNetCore.Mvc
+@using Microsoft.Extensions.Configuration
+@using Domain
+@using Domain.Commons
+@using Domain.Dtos
+@using Domain.Enums
+@using Domain.Models
+@using Domain.ViewModels
+@using Application.Commons.Contracts
+@using Application.IdentityServices.Contracts
+@using Application.Services.Contracts
+@using Application.Controllers
+@using Infrastructure.Utilities
+@using Infrastructure.Providers.Contracts
+@using Infrastructure.Extensions
+@using Localization
+@using System.Text.RegularExpressions
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@inject IConfiguration _configuration
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor _httpContextAccessor
+
+@inject IFolderManagerProvider _folderManagerProvider
+@inject IHtmlProvider _htmlProvider
+@inject ISessionProvider _sessionProvider
+@inject ISettingProvider _settingProvider
+@inject IServiceProvider _serviceProvider
+
+@inject ILocaleService _localeService
+@inject IPermissionService _permissionService
+@inject IPostService _postService
+@inject IPostCategoryService _postCategoryService
+@inject IRoleService _roleService
+@inject IRolePermissionService _rolePermissionService
+@inject IUserService _userService

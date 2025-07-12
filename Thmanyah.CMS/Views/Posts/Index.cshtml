@@ -1,0 +1,89 @@
+﻿@model IEnumerable<PostDto>
+@if (_sessionProvider.HasPermission(PermissionKey.Edit))
+{
+    <a asp-action="editor" class="btn btn-sm btn-dark mb-4" asp-route-id="null"><i class="fa fa-plus"></i> @Resources.AddNew</a>
+}
+<div class="card">
+    <div class="card-body">
+        <partial name="Partials/_NeedTakeActionAlert" model="_postService.GetPublishAndDeleteRequestCount()" />
+        @if (Model.Any())
+        {
+            <table class="table table-striped align-middle table-row-dashed fs-6 gy-5 table-sortable">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>@Resources.Title</th>
+                        <th>@Resources.Link</th>
+                        <th>@Resources.Status</th>
+                        <th>@Resources.Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.OrderBy(t => t.Sort))
+                    {
+                        <tr>
+                            <td>@(item.IsPublished? item.Sort: "-")</td>
+                            <td><a asp-action="editor" asp-route-id="@item.Id">@item.GetName()</a></td>
+                            <td>@item.Link</td>
+                            <td>
+                                @if (item.IsNeedDeleteApprove)
+                                {
+                                    if (_sessionProvider.HasPermission(PermissionKey.Approve))
+                                    {
+                                        <div class="d-flex">
+                                            <a class="btn btn-danger btn-sm mx-1 confirm-delete-ajax-link" asp-action="publishdelete" asp-route-id="@item.Id"><i class="ki-duotone ki-check fs-3"></i> @Resources.Delete</a>
+                                            <a class="btn btn-secondary btn-sm mx-1 cancel-delete-ajax-link" asp-action="canceldelete" asp-route-id="@item.Id"><i class="ki-duotone ki-cross fs-3"><span class="path1"></span><span class="path2"></span></i> @Resources.Cancel</a>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge badge-danger">@Resources.PendingToDelete</span>
+                                    }
+                                }
+                                else
+                                {
+                                    if (item.IsPublished)
+                                    {
+                                        <span class="badge badge-success">@Resources.Yes</span>
+
+                                    }
+                                    else
+                                    {
+
+                                        @if (!(item.IsNeedDeleteApprove) && _sessionProvider.HasPermission(PermissionKey.Approve))
+                                        {
+                                            <a class="btn btn-sbc btn-sm publish-ajax-link" asp-action="publish" asp-route-id="@item.Id"><i class="ki-duotone ki-send"><span class="path1"></span><span class="path2"></span></i> @Resources.Publish</a>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge badge-danger">@Resources.No</span>
+                                        }
+                                    }
+                                }
+                            </td>
+                            <td>
+                                <div class="dropdown">
+                                    <button class="btn btn-sm btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-tasks"></i></button>
+                                    <ul class="dropdown-menu">
+                                        @if (_sessionProvider.HasPermission(PermissionKey.Edit))
+                                        {
+                                            <li><a class="dropdown-item" asp-action="editor" asp-route-id="@item.Id"><i class="fa fa-edit"></i> @Resources.Edit</a></li>
+                                        }
+                                       @if (_sessionProvider.HasPermission(PermissionKey.Delete))
+                                        {
+                                            <li><a class="dropdown-item delete-ajax-link" asp-action="delete" asp-route-id="@item.Id"><i class="fa fa-trash"></i> @Resources.Delete</a></li>
+                                        }
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <partial name="Partials/_NoDataFound" />
+        }
+    </div>
+</div>

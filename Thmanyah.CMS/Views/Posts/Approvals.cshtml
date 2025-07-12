@@ -1,0 +1,75 @@
+﻿@{
+    Layout = "_ApprovalsLayout";
+    var model = _postService.GetPublishAndDeleteRequests();
+}
+<partial name="Partials/_NeedPublishAlert" model="_postService.GetPublishRequestCount()" />
+<partial name="Partials/_NeedDeleteAlert" model="_postService.GetDeleteRequestCount()" />
+<div class="card">
+	<div class="card-body">
+        @if (model.Any())
+        {
+            <table class="table table-striped align-middle table-row-dashed fs-6 gy-5 table-sortable" data-controller="posts">
+                <thead>
+                    <tr>
+                        <th>@Resources.Title</th>
+                        <th>@Resources.Link</th>
+                        <th>@Resources.Status</th>
+                        <th>@Resources.Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in model)
+                    {
+                        <tr>
+                            <td><a asp-action="editor" asp-route-id="@item.Id">@item.GetName()</a></td>
+                            <td>@item.Link</td>
+                            <td>
+                                @if (item.IsNeedDeleteApprove)
+                                {
+                                    if (_sessionProvider.HasPermission(PermissionKey.Approve))
+                                    {
+                                        <div class="d-flex">
+                                            <a class="btn btn-danger btn-sm mx-1 confirm-delete-ajax-link" asp-action="publishdelete" asp-route-id="@item.Id"><i class="ki-duotone ki-check fs-3"></i> @Resources.Delete</a>
+                                            <a class="btn btn-secondary btn-sm mx-1 cancel-delete-ajax-link" asp-action="canceldelete" asp-route-id="@item.Id"><i class="ki-duotone ki-cross fs-3"><span class="path1"></span><span class="path2"></span></i> @Resources.Cancel</a>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge badge-danger">@Resources.PendingToDelete</span>
+                                    }
+                                }
+                                else
+                                {
+                                    if (item.IsPublished)
+                                    {
+                                        <span class="badge badge-success">@Resources.Yes</span>
+
+                                    }
+                                    else
+                                    {
+
+                                        @if (!(item.IsNeedDeleteApprove) && _sessionProvider.HasPermission(PermissionKey.Approve))
+                                        {
+                                            <a class="btn btn-sbc btn-sm publish-ajax-link" asp-action="publish" asp-route-id="@item.Id"><i class="ki-duotone ki-send"><span class="path1"></span><span class="path2"></span></i> @Resources.Publish</a>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge badge-danger">@Resources.No</span>
+                                        }
+                                    }
+                                }
+                            </td>
+                            <td>
+                                <partial name="Partials/_ActionApprovals" model="item" />
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <partial name="Partials/_NoDataFound" />
+        }
+	</div>
+</div>

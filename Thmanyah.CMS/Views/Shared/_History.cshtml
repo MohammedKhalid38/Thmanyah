@@ -1,0 +1,53 @@
+﻿@model List<EntityHistoryViewModel>
+@if(Model != null){
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>@Resources.Name</th>
+                <th>@Resources.Status</th>
+                <th>@Resources.Date</th>
+                <th>@Resources.Time</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.OrderByDescending(o => o.CreatedAt))
+            {
+                var user = _userService.GetUserById(item.CreatedBy?.ToString() ?? string.Empty);
+                string userName = user != null ? (!string.IsNullOrEmpty(user.Name) ? user.Name : "Administrator") : "Administrator";
+                <tr>
+                    <td>@userName</td>
+                    <td>
+                        @if (item.IsNeedDeleteApprove)
+                        {
+                            <span class="badge badge-danger">@Resources.PendingToDelete</span>
+                        }
+                        else
+                        {
+                            if (!item.IsPublished ?? false)
+                            {
+                                <span class="badge badge-info">@Resources.PendingToUpdate</span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-success">@Resources.Published</span>
+                            }
+                        }
+                    </td>
+                    <td>@item.CreatedAt?.ToString("dd-MM-yyyy")</td>
+                    <td>@item.CreatedAt?.ToString("HH:mm:ss tt")</td>
+                    <td></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}else{
+    <div class="alert alert-warning w-100 p-5 mb-10">
+        <div class="d-flex flex-column flex-sm-row">
+            <i class="ki-duotone ki-notification-bing fs-2hx me-4 mb-5 mb-sm-0 text-warning"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+            <div class="d-flex flex-column pe-0 pe-sm-10 text-warning">
+                <span>@Resources.NoRecordsFound</span>
+            </div>
+        </div>
+    </div>
+}

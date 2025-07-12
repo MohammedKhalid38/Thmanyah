@@ -1,0 +1,27 @@
+﻿@model LoginViewModel
+@{
+    ViewData["Title"] = Resources.Login;
+}
+
+<div class="d-flex align-items-center justify-content-center vh-100">
+    <form class="form w-50" asp-action="login" method="post">
+        <div class="text-center mb-11">
+            <h1 class="text-dark fw-bolder mb-3">@Resources.Login</h1>
+        </div>
+        <partial name="Partials/_AlertMessage" />
+        <div class="mb-2">
+            <label for="Email" class="fw-bold form-label">@Resources.Email <span class="text-danger">*</span></label>
+            <input type="email" class="form-control" asp-for="Email" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <div class="mb-2">
+            <label for="Password" class="fw-bold form-label">@Resources.Password <span class="text-danger">*</span></label>
+            <input type="password" class="form-control" asp-for="Password" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+        <partial name="Partials/_Recaptcha" />
+        <div class="d-grid my-2">
+            <button type="submit" class="btn btn-sm btn-dark fs-6">@Resources.Login</button>
+        </div>
+    </form>
+</div>

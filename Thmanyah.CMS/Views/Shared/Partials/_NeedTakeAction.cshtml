@@ -1,0 +1,23 @@
+﻿@model string
+@{
+    Layout = null;
+}
+@if (_sessionProvider.HasPublishPermission)
+{
+    <div id="need-action-alert" class="alert alert-info w-100 p-5 mb-10 d-flex justify-content-between" style="display:none;">
+        <div class="d-flex flex-column flex-sm-row">
+            <i class="ki-duotone ki-notification-bing fs-2hx text-info me-4 mb-5 mb-sm-0"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+            <div class="d-flex flex-column pe-0 pe-sm-10">
+                <h4 class="mb-2 text-info">@Resources.ActionNeededTitle</h4>
+                <span id="need-action-count" data-url="@Model">@Html.Raw(Resources.ActionNeededMessage)</span>
+            </div>
+        </div>
+        <div>
+            <a asp-action="approvals" class="btn btn-sm btn-dark">
+                <i class="ki-duotone ki-questionnaire-tablet fs-2"><span class="path1"></span><span class="path2"></span></i>  @Resources.ActionNeededGoToApprovalsPage
+            </a>
+        </div>
+    </div>
+}
+
+

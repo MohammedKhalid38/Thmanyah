@@ -1,0 +1,49 @@
+﻿@model MultilingualFieldViewModel
+@{
+    Layout = null;
+    List<LocaleDto> locales =  _localeService.GetAllActiveLanguages().OrderByDescending(o => o.IsDefault).ThenBy(t => t.Sort).ToList();
+    string fieldName = Model.Name;
+}
+
+<ul class="nav nav-tabs nav-line-tabs nav-line-tabs-2x mb-2">
+
+    @foreach (var item in locales.Select((value, index) => (value, index)))
+    {
+        <li class="nav-item">
+            <a class="nav-link @(item.index == 0 ? "active" : string.Empty) fw-bold" data-bs-toggle="tab" href="#@($"{fieldName}{item.value.Id}-tab-pane")"><img data-kt-element="current-lang-flag" class="rounded me-2" style="height:15px" src="/assets/images/locales/@(item.value.Code).svg" alt="@item.value.Code icon" /> @item.value.Title</a>
+        </li>
+
+    }
+</ul>
+<div class="tab-content" id="myTabContent">
+
+    @foreach (var item in locales.Select((value, index) => (value, index)))
+    {
+        var value = Model?.Fields.FirstOrDefault(f => f.Locale == item.value.Code)?.Value;
+        <input type="hidden" name="@(fieldName)[@item.index].Locale" value="@item.value.Code" />
+        <div class="tab-pane fade @(item.index == 0 ? "show active" : "")" id="@($"{fieldName}{item.value.Id}-tab-pane")" style="direction:@item.value.Direction.ToLower();" role="tabpanel">
+            @if (Model?.Type == "textarea")
+            {
+                <textarea name="@(fieldName)[@item.index].Value" rows="5" class="form-control multilingual-control @Model?.CssClass" style="direction:@item.value.Direction.ToLower();@(Model?.IsResizable ?? false ? "resize: none;" : string.Empty)@Model?.CssStyle">@value</textarea>
+            }
+            else if (Model?.Type == "html")
+            {
+                <textarea name="@(fieldName)[@item.index].Value" rows="5" class="form-control multilingual-control text-editor @Model?.CssClass" data-direction="@item.value.Direction.ToLower()" style="direction:@item.value.Direction.ToLower();@(Model?.IsResizable ?? false ? "resize: none;" : string.Empty)@Model?.CssStyle">@value</textarea>
+            }
+            else if (Model?.Type == "readonly")
+            {
+                <input type="hidden" name="@(fieldName)[@item.index].Value" value="@value" />
+                <p>@Html.Raw(value)</p>
+            }
+            else if (Model?.Type == "tagify")
+            {
+                <input type="text" name="@(fieldName)[@item.index].Value" class="form-control multilingual-control multilingual-tagify @Model?.CssClass" style="direction:@item.value.Direction.ToLower();@Model?.CssStyle" value="@value" />
+            }
+            else
+            {
+            <input type="text" name="@(fieldName)[@item.index].Value" class="form-control multilingual-control @Model?.CssClass" style="direction:@item.value.Direction.ToLower();@Model?.CssStyle" value="@value" />
+            }
+            <span data-valmsg-for="@(fieldName)[@item.index].Value" class="text-danger"></span>
+        </div>
+    }
+</div>

@@ -1,0 +1,15 @@
+E:\Business\Projects\Thmanyah\Domain\bin\Debug\net8.0\Domain.deps.json
+E:\Business\Projects\Thmanyah\Domain\bin\Debug\net8.0\Domain.dll
+E:\Business\Projects\Thmanyah\Domain\bin\Debug\net8.0\Domain.pdb
+E:\Business\Projects\Thmanyah\Domain\bin\Debug\net8.0\Localization.dll
+E:\Business\Projects\Thmanyah\Domain\bin\Debug\net8.0\Localization.pdb
+E:\Business\Projects\Thmanyah\Domain\obj\Debug\net8.0\Domain.csproj.AssemblyReference.cache
+E:\Business\Projects\Thmanyah\Domain\obj\Debug\net8.0\Domain.GeneratedMSBuildEditorConfig.editorconfig
+E:\Business\Projects\Thmanyah\Domain\obj\Debug\net8.0\Domain.AssemblyInfoInputs.cache
+E:\Business\Projects\Thmanyah\Domain\obj\Debug\net8.0\Domain.AssemblyInfo.cs
+E:\Business\Projects\Thmanyah\Domain\obj\Debug\net8.0\Domain.csproj.CoreCompileInputs.cache
+E:\Business\Projects\Thmanyah\Domain\obj\Debug\net8.0\Domain.csproj.Up2Date
+E:\Business\Projects\Thmanyah\Domain\obj\Debug\net8.0\Domain.dll
+E:\Business\Projects\Thmanyah\Domain\obj\Debug\net8.0\refint\Domain.dll
+E:\Business\Projects\Thmanyah\Domain\obj\Debug\net8.0\Domain.pdb
+E:\Business\Projects\Thmanyah\Domain\obj\Debug\net8.0\ref\Domain.dll

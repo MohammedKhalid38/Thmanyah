@@ -1,0 +1,25 @@
+﻿@model PostCategoryDto
+@{
+    ViewData["Title"] = Model != null && Model.Id != Guid.Empty ? $"{Resources.Edit} {Model.Name.GetValue()}" : Resources.AddNew;
+}
+<div class="card mb-5">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <form asp-action="Editor" method="post">
+                    <div class="mb-2">
+                        <label for="Name" class="fw-bold form-label">@Resources.Name <span class="text-danger">*</span></label>
+                        <multilingual type="text" name="Name" data-content="@MultilingualSerializer.Serialize(Model?.Name)"></multilingual>
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <partial name="Partials/_BaseInputFields" model="Model" />
+                    <div class="mb-2">
+                        <button type="submit" class="btn btn-sm btn-dark">@Resources.SaveChanges</button>
+                        <a asp-action="index" class="btn btn-sm btn-light">@Resources.Back</a>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

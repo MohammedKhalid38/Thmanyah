@@ -1,0 +1,20 @@
+﻿@model BaseDto
+@{
+   Guid guid = Model?.Id ?? Guid.Empty;
+}
+@Html.AntiForgeryToken()
+<input type="hidden" asp-for="Id" value="@guid" />
+<input type="hidden" asp-for="Sort" />
+<input type="hidden" asp-for="CreatedAt" value="@Model?.CreatedAt?.ToString("yyyy-MM-dd HH:mm:ss", new System.Globalization.CultureInfo("en"))" />
+<input type="hidden" asp-for="IsPublished" />
+<input type="hidden" asp-for="IsNeedDeleteApprove" />
+
+<div class="mb-2">
+    <div class="form-check">
+        <input type="checkbox" asp-for="IsActive" class="form-check-input"  checked="checked"/>
+        <label class="form-check-label fw-bold" for="IsActive">
+            @Resources.IsActive
+        </label>
+    </div>
+    <span asp-validation-for="IsActive" class="text-danger"></span>
+</div>

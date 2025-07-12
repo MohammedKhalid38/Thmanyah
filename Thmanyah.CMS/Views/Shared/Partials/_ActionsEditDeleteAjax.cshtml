@@ -1,0 +1,22 @@
+﻿@model BaseDto
+
+@if (!Model.IsNeedDeleteApprove || _sessionProvider.HasPermission(PermissionKey.Approve))
+{
+    <div class="dropdown">
+        <button class="btn btn-sm btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-tasks"></i></button>
+        <ul class="dropdown-menu">
+            @if (_sessionProvider.HasPermission(PermissionKey.Edit))
+            {
+                <li><a class="dropdown-item edit-ajax-link" asp-action="editor" asp-route-id="@Model.Id"><i class="fa fa-edit"></i> @Resources.Edit</a></li>
+            }
+            @if (_sessionProvider.HasPermission(PermissionKey.Delete))
+            {
+                <li><a class="dropdown-item delete-ajax-link" asp-action="delete" asp-route-id="@Model.Id"><i class="fa fa-trash"></i> @Resources.Delete</a></li>
+            }
+            @if (_sessionProvider.HasPublishPermission)
+            {
+                <li><a class="dropdown-item history-ajax-link" asp-action="history" asp-route-id="@Model.Id"><i class="ki-duotone ki-time fs-3"><span class="path1"></span><span class="path2"></span></i> @Resources.ChangesLogs</a></li>
+            }
+        </ul>
+    </div>
+}

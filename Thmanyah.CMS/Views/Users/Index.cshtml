@@ -1,0 +1,64 @@
+﻿@model IEnumerable<UserDto>
+@{
+    ViewData["Title"] = Resources.List;
+}
+@if (true)//_sessionProvider.HasPermission(PermissionKey.Create))
+{
+    <a asp-action="editor" class="btn btn-sm btn-dark mb-4"><i class="fa fa-plus"></i> @Resources.AddNew</a>
+}
+<div class="card">
+    <div class="card-body">
+      
+        @if (Model.Any())
+        {
+            <table class="table table-striped align-middle table-row-dashed fs-6 gy-5">
+                <thead>
+                    <tr>
+                        <th>@Resources.Name</th>
+                        <th>@Resources.Email</th>
+                        <th>@Resources.PhoneNumber</th>
+                        <th>@Resources.Status</th>
+                        <th>@Resources.Role</th>
+                        <th>@Resources.Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        bool lockout = !(item.LockoutEnd != null && item.LockoutEnd < DateTime.UtcNow);
+                        string? roleName = (await _roleService.GetByIdAsync(item.RoleId.ToString()))?.Name;
+                        <tr>
+                            <td>@item.Name</td>
+                            <td>@item.Email</td>
+                            <td>@item.PhoneNumber</td>
+                            <td>
+                                <span class="badge @(lockout ? "badge-success" : "badge-danger")">@(lockout? Resources.Active: Resources.Inactive)</span>
+                            </td>
+                            <td><span class="badge badge-info">@roleName</span></td>
+                            <td>
+                                @if (!(item.IsNeedDeleteApprove) || _sessionProvider.HasPermission(PermissionKey.FullControl))
+                                {
+                                    <div class="dropdown">
+                                        <button class="btn btn-sm btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-tasks"></i></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item edit-ajax-link" asp-action="editor" asp-route-id="@item.Id"><i class="fa fa-edit"></i> @Resources.Edit</a></li>
+                                            <li><a class="dropdown-item delete-ajax-link" asp-action="delete" asp-route-id="@item.Id"><i class="fa fa-trash"></i> @Resources.Delete</a></li>
+                                        </ul>
+                                    </div>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <partial name="Partials/_NoDataFound" />
+        }
+    </div>
+</div>
+
+@section scripts {
+    <script src="/assets/js/users.js" asp-append-version="true"></script>
+}

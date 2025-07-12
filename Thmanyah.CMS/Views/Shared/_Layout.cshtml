@@ -1,0 +1,129 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - @Resources.SiteName</title>
+    @* <link rel="stylesheet" href="/assets/lib/bootstrap/dist/css/bootstrap.min.css" /> *@
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.rtl.min.css" integrity="sha384-gXt9imSW0VcJVHezoNQsP+TNrjYXoGcrqBZJpry9zJt8PCQjobwmhMGaDHTASo9N" crossorigin="anonymous">  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="/assets/plugins/select2/css/select2.min.css" rel="stylesheet" />
+<link href="/assets/plugins/sweetalert2/sweetalert2.min.css" rel="stylesheet" />
+<link href="/assets/plugins/summernote/summernote-lite.min.css" rel="stylesheet" />
+    
+    <link rel="stylesheet" href="/assets/css/site.css" asp-append-version="true" />
+@*     <link rel="stylesheet" href="/assets/Thmanyah.CMS.styles.css" asp-append-version="true" /> *@
+    <link rel="shortcut icon" href="/assets/images/favicon.ico" />
+</head>
+<body>
+
+    <input type="hidden" id="hdn-locale" name="hdn-locale" value="@_sessionProvider.GetCurrentLocale()" />
+
+    <input type="hidden" id="hdn-action-confirm" value="@Resources.ActionConfirm" />
+    <input type="hidden" id="hdn-action-delete-message" value="@Resources.ActionDeleteMessage" />
+    <input type="hidden" id="hdn-action-publish-message" value="@Resources.ActionPublishMessage" />
+    <input type="hidden" id="hdn-action-cancel-changes-message" value="@Resources.ActionCancelChangesMessage" />
+    <input type="hidden" id="hdn-action-confirm-delete-message" value="@Resources.ActionConfirmDeleteMessage" />
+    <input type="hidden" id="hdn-action-publish-all-message" value="@Resources.ActionPublishAllMessage" />
+    <input type="hidden" id="hdn-action-create-copy-message" value="@Resources.ActionCreateCopyMessage" />
+    <input type="hidden" id="hdn-action-yes" value="@Resources.Yes" />
+    <input type="hidden" id="hdn-action-no" value="@Resources.No" />
+    <input type="hidden" id="hdn-action-ok" value="@Resources.Ok" />
+    <input type="hidden" id="hdn-action-cancel" value="@Resources.Cancel" />
+    <input type="hidden" id="hdn-action-confirm" value="@Resources.Confirm" />
+
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                    <img src="/assets/images/logo-black.png"/>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+
+                    @if (_sessionProvider.IsLoggedInUser())
+                    {
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark fw-bold" asp-controller="Home" asp-action="Index">الرئيسية</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark fw-bold" asp-controller="Categories" asp-action="Index">التصنيفات</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link text-dark fw-bold" asp-controller="Posts" asp-action="Index">المقالات</a>
+                            </li>
+
+                            @if (_sessionProvider.HasPermission(PermissionKey.FullControl))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark fw-bold" asp-controller="Users" asp-action="Index">المستخدمين</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark fw-bold" asp-controller="Roles" asp-action="Index">الصلاحيات</a>
+                                </li>
+                            }
+                         
+                        </ul>
+
+                        <div class="dropdown">
+  <button class="btn d-flex align-items-center gap-2 p-0 border-0 bg-transparent" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+ 
+    <!-- Avatar -->
+    <div class="rounded-circle bg-dark text-white d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+      <span class="fw-bold">MK</span>
+    </div>
+      <!-- Label -->
+    <span class="fw-semibold">مرحبا، @_sessionProvider.GetLoggedInUserInfo()?.Name</span>
+
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end mt-2" aria-labelledby="userDropdown">
+@*     <li><a class="dropdown-item" href="#">الصفحة الشخصية</a></li>
+    <li><a class="dropdown-item" href="#">الإعدادات</a></li>
+    <li><hr class="dropdown-divider"></li> *@
+    <li><a class="dropdown-item text-danger" href="/auth/logout"><i class="fa fa-sign-out"></i> تسجيل خروج</a></li>
+  </ul>
+</div>
+
+
+                     @*    <a class="btn btn-sm btn-dark" asp-action="logout" asp-controller="auth">تسجيل الخروج</a> *@
+                    }
+                    else
+                    {
+                        <a class="btn btn-sm btn-dark"  asp-action="login" asp-controller="auth">تسجيل الدخول</a>
+
+                    }
+
+                    
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; @DateTime.Today.Year - @Resources.SiteName
+        </div>
+    </footer>
+       <partial name="Partials/_MainModal" />
+    <script src="/assets/lib/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/js/all.min.js" integrity="sha512-b+nQTCdtTBIRIbraqNEwsjB6UvL3UEMkXnhzd8awtCYh0Kcsjl9uEgwVFVbhoj3uu1DO1ZMacNvLoyJJiNfcvg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+   <script src="/assets/plugins/select2/js/select2.full.min.js" asp-append-version="true"></script>
+    <script src="/assets/plugins/sweetalert2/sweetalert2.all.min.js" asp-append-version="true"></script>
+    <script src="/assets/plugins/summernote/summernote-lite.min.js" asp-append-version="true"></script>
+    
+    @* <script src="/assets/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script> *@
+    <script type="module" src="/assets/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

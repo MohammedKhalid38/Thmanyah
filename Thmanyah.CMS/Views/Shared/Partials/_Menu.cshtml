@@ -1,0 +1,61 @@
+﻿@* 
+@{
+    Layout = null;
+    var model = _departmentAdminPageService.GetAdminPageMenu();
+}
+
+
+<div class="menu menu-column menu-rounded menu-sub-indention fw-semibold fs-6" id="kt_app_sidebar_menu" data-kt-menu="true" data-kt-menu-expand="false">
+
+    @foreach (var item in model.Where(w => w.IsAdmin == false && w.IsSetup == false))
+    {
+        <div class="menu-item">
+            <a class="menu-link" href="/@item.ControllerName.ToLower()/">
+                <span class="menu-icon">@Html.Raw(item.Icon)</span>
+                <span class="menu-title">@item.Name.GetValue()</span>
+                @if (_sessionProvider.HasPublishPermission && item.HasPublishCount)
+                {
+                    <span class="badge badge-exclusive badge-primary fw-bold badge-publish" data-url="/@item.ControllerName/PublishRequestCount"></span>
+                }
+            </a>
+        </div>
+    }
+    @if (model.Any(a => a.IsSetup))
+    {
+         <div class="menu-item pt-5">
+            <div class="menu-content">
+                <span class="menu-heading fw-bold text-uppercase fs-7">@Resources.Setup</span>
+            </div>
+        </div>
+        @foreach (var item in model.Where(w => w.IsSetup == true))
+        {
+            <div class="menu-item">
+                <a class="menu-link" href="/@item.ControllerName.ToLower()/">
+                    <span class="menu-icon">@Html.Raw(item.Icon)</span>
+                    <span class="menu-title">@item.Name.GetValue()</span>
+                    @if (_sessionProvider.HasPublishPermission && item.HasPublishCount)
+                    {
+                        <span class="badge badge-exclusive badge-primary fw-bold badge-publish" data-url="/@item.ControllerName/PublishRequestCount"></span>
+                    }
+                </a>
+            </div>
+        }
+    }
+    @if (model.Any(a => a.IsAdmin) && _sessionProvider.HasPermission(PermissionKey.FullControl))
+    {
+       
+        @foreach (var item in model.Where(w => w.IsAdmin == true))
+        {
+            <div class="menu-item">
+                <a class="menu-link" href="/@item.ControllerName.ToLower()/">
+                    <span class="menu-icon">@Html.Raw(item.Icon)</span>
+                    <span class="menu-title">@item.Name.GetValue()</span>
+                    @if (_sessionProvider.HasPublishPermission && item.HasPublishCount)
+                    {
+                        <span class="badge badge-exclusive badge-primary fw-bold badge-publish" data-url="/@item.ControllerName/PublishRequestCount"></span>
+                    }
+                </a>
+            </div>
+        }
+    }
+</div> *@

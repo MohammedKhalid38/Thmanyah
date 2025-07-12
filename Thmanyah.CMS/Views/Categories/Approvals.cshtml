@@ -1,0 +1,40 @@
+﻿@{
+    Layout = "_ApprovalsLayout";
+    var model = _postCategoryService.GetPublishAndDeleteRequests();
+}
+<partial name="Partials/_NeedPublishAlert" model="_postCategoryService.GetPublishRequestCount()" />
+<partial name="Partials/_NeedDeleteAlert" model="_postCategoryService.GetDeleteRequestCount()" />
+<div class="card">
+	<div class="card-body">
+        @if (model.Any())
+        {
+            <table class="table table-striped align-middle table-row-dashed fs-6 gy-5 table-sortable" data-controller="posts">
+                <thead>
+                    <tr>
+                        <th>@Resources.Name</th>
+                        <th>@Resources.Status</th>
+                        <th>@Resources.Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in model)
+                    {
+                        <tr>
+                            <td><a asp-action="editor" asp-route-id="@item.Id">@item.GetName()</a></td>
+                            <td>
+                                <partial name="Partials/_PublishedBadges" model="item" />
+                            </td>
+                            <td>
+                                <partial name="Partials/_ActionApprovals" model="item" />
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <partial name="Partials/_NoDataFound" />
+        }
+	</div>
+</div>

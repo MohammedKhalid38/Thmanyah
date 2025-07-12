@@ -1,0 +1,73 @@
+﻿@model RoleDto
+@{
+    //ViewData["Title"] = Model != null && Model.Id != Guid.Empty ? $"{Resources.Edit} {Model.Title.GetValue()}" : Resources.AddNew;
+}
+<div class="card mb-5">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <form asp-action="Editor" method="post">
+                    <input type="hidden" asp-for="IsStatic" />
+                    <div class="mb-2">
+                        <label for="Name" class="fw-bold form-label">@Resources.Name <span class="text-danger">*</span></label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="mb-2">
+                        <label for="Title" class="fw-bold form-label">@Resources.Title <span class="text-danger">*</span></label>
+                        <input asp-for="Title" class="form-control" />
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+
+                    @if (Model != null && Model.Id != Guid.Empty)
+                    {
+                        <label class="my-1 fw-bold">@Resources.Permissions <span class="text-danger">*</span></label>
+                        <div class="items-container m-3 row">
+                            @foreach (var item in _permissionService.GetAll().OrderBy(o => o.Name).Select((value, index) => (value, index)))
+                            {
+                                Guid roleId = Model?.Id ?? Guid.Empty;
+                                var rolePermission = _rolePermissionService.Search(a => a.PermissionId == item.value.Id && a.RoleId == roleId).FirstOrDefault();
+                                <div class="col-md-4">
+
+                                    <input name="Permissions[@item.index].PermissionId" type="hidden" value="@item.value.Id" />
+                                <input name="Permissions[@item.index].RoleId" type="hidden" value="@roleId" />
+                                <input name="Permissions[@item.index].IsActive" type="hidden" value="true" />
+                                <div class="mb-2">
+                                    <div class="custom-control custom-checkbox">
+                                        <div class="form-check">
+                                            @if (rolePermission != null)
+                                            {
+                                                <input type="checkbox" asp-for="Permissions[item.index].IsSelected" id="@item.value.Id" class="form-check-input" checked="checked" />
+                                            }
+                                            else
+                                            {
+                                                <input type="checkbox" asp-for="Permissions[item.index].IsSelected" id="@item.value.Id" class="form-check-input" />
+                                            }
+                                            <label class="form-check-label" for="IsPublished">
+                                                @item.value.Title
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                            }
+                        </div>
+
+                    }
+                    else
+                    {
+                    <input type="hidden" asp-for="Permissions" />
+                        
+                    }
+
+
+                    <partial name="Partials/_BaseInputFields" model="Model" />
+                    <div class="mb-2">
+                        <button type="submit" class="btn btn-sm btn-dark">@Resources.SaveChanges</button>
+                        <a asp-action="index" class="btn btn-sm btn-light">@Resources.Back</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

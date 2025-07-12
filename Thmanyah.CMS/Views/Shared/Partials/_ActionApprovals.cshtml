@@ -1,0 +1,23 @@
+﻿@model BaseDto
+
+@if (_sessionProvider.HasPermission(PermissionKey.Approve) && (!Model.IsPublished || Model.IsNeedDeleteApprove))
+{
+
+    <div class="dropdown">
+        <button class="btn btn-sm btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-tasks"></i></button>
+        <ul class="dropdown-menu">
+            @if (Model.IsNeedDeleteApprove)
+            {
+                <li><a class="dropdown-item confirm-delete-ajax-link" asp-action="confirmdelete" asp-route-id="@Model.Id"><i class="fa fa-trash"></i> @Resources.Delete</a></li>
+                <li><a class="dropdown-item cancel-ajax-link" asp-action="canceldelete" asp-route-id="@Model.Id"><i class="ki-duotone ki-cross fs-3"><span class="path1"></span><span class="path2"></span></i> @Resources.Cancel</a></li>    
+            }
+            @if (!Model.IsPublished)
+            {
+                <li><a class="dropdown-item confirm-publish-ajax-link" asp-action="confirmpublish" asp-route-id="@Model.Id"><i class="ki-duotone ki-send fs-3"><span class="path1"></span><span class="path2"></span></i> @Resources.Publish</a></li>
+                <li><a class="dropdown-item cancel-ajax-link" asp-action="cancelpublish" asp-route-id="@Model.Id"><i class="ki-duotone ki-cross fs-3"><span class="path1"></span><span class="path2"></span></i> @Resources.Cancel</a></li>
+            }
+            <li><a class="dropdown-item view-history-ajax-link" asp-action="historydetails" asp-route-id="@Model.Id"><i class="ki-duotone ki-note-2"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></i> @Resources.ViewChanges</a></li>
+            <li><a class="dropdown-item history-ajax-link" asp-action="history" asp-route-id="@Model.Id"><i class="ki-duotone ki-time fs-3"><span class="path1"></span><span class="path2"></span></i> @Resources.ChangesLogs</a></li>
+        </ul>
+    </div>
+}

@@ -1,0 +1,13 @@
+﻿@{
+    Layout = null;
+}
+@if (TempData.ContainsKey("AlertMessage"))
+{
+    @section alerts{
+    <script asp-append-version="true">
+        ShowMessage("@Convert.ToBoolean(TempData["AlertType"]?.ToString() ?? "False")", "@TempData["AlertStatus"]", "@TempData["AlertMessage"]");
+    </script>
+  }
+
+    TempData.Clear();
+}

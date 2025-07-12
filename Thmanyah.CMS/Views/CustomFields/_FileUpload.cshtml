@@ -1,0 +1,66 @@
+﻿@* @model FileUploadViewModel
+@{
+    Layout = null;
+    bool isImage = Model.Type == nameof(MediaFileType.Image);
+    bool isVideo = Model.Type == nameof(MediaFileType.Video);
+    bool isDocument = Model.Type == nameof(MediaFileType.Document);
+    string chooseButtonLabel = isImage ? Resources.ChooseImage : Resources.ChooseFile;
+    bool hasFileData = ((isImage || isVideo || isDocument) && !string.IsNullOrEmpty(Model.Id)) || (!isImage && !string.IsNullOrEmpty(Model.Path));
+    var file = _mediaFileService.GetById(Model.Id.ToGuid());
+    string extention = _mediaFileService.GetFileExtentionById(Model.Id.ToGuid());
+    string path = !string.IsNullOrEmpty(extention) ? extention : "file";
+}
+<div class="card @(!isImage ? "w-100" : string.Empty)">
+    <div class="card-body bg-light p-1">
+        <div class="d-flex flex-column justify-content-start p-1 file-selector">
+            @if (isImage || isVideo || isDocument)
+            {
+                <input type="hidden" id="@Model.Name" name="@Model.Name" value="@Model.Id" />
+                <input type="hidden" class="hdn-file-no-selected" value="@Resources.NoFileSelected" />
+
+
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex flex-column justify-content-between align-items-center">
+                            @if (!string.IsNullOrEmpty(path))
+                            {
+                                @if (isImage)
+                                {
+                                    <img id="@Model.Id" class="mb-2 image-thumbnail image-file-thumbnail" height="50" src="/assets/media/files/file.png" alt="upload image" />
+                                }
+                                else if (isVideo || isDocument)
+                                {
+                                    <img class="mb-2 image-file-thumbnail" height="50" src="/assets/media/files/@(path).png" height="40" alt="File Icon">
+                                }
+                            }
+                            else
+                            {
+                                <img class="mb-2 image-file-thumbnail" height="50" src="/assets/media/files/file.png" alt="upload image" />
+                            }
+                            <h6 class="file-upload-name">@(Model.Id.ToGuid() != Guid.Empty ? file.Name : Resources.NoFileSelected)</h6>
+                            <p class="file-upload-size small text-muted">@(Model.Id.ToGuid() != Guid.Empty ? _folderManagerProvider.ConvertSizeToByteFamilySize(file.Size) : string.Empty)</p>
+                       </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <input type="hidden" id="@Model.Name" name="@Model.Name" value="@Model.Path" />
+                <div class="position-relative">
+                    <input type="text" class="form-control input-text-file-link" data-target="@Model.Name" value="@Model.Path" />
+                    <div class="position-absolute translate-middle-y btn btn-secondary top-50 end-0">
+                        <a id="@Model.Id" href="@Model.Path" class="file-link" target="_blank"><i class="ki-duotone ki-fasten"><span class="path1"></span><span class="path2"></span></i></a>
+                    </div>
+                </div>
+            }
+            <div class="d-flex flex-row justify-content-start w-100">
+                <button type="button" class="btn btn-sm btn-dark m-1 file-picker" data-target-id="#@(Model.Name)" data-type="@Model.Type">@chooseButtonLabel</button>
+                <button type="button" class="btn btn-sm btn-danger m-1 file-delete" style="@(hasFileData ? string.Empty : "display:none;")">@Resources.Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+ *@

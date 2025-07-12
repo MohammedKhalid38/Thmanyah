@@ -1,0 +1,21 @@
+﻿@model int
+@{
+    Layout = null;
+}
+@if (_sessionProvider.HasPublishPermission && Model > 0)
+{
+    <div class="alert alert-danger  fade show d-flex justify-content-between align-items-center" role="alert">
+        <div>
+            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Warning:"><use xlink:href="#info-fill" /></svg>
+            <span><strong class="mx-1">@Resources.RequestDelete </strong> (@Html.Raw(string.Format(Resources.PublishContentRequestsNeedDelete, Model)))</span>
+        </div>
+        <div>
+            <a asp-action="deleteall" class="btn btn-sm btn-danger publish-all-ajax-link">
+                <i class="fa fa-trash"></i> @Resources.DeleteAll
+            </a>
+            <a asp-action="canceldeleteall" class="btn btn-sm bg-white publish-all-ajax-link">
+                <i class="fa fa-close"><span class="path1"></span><span class="path2"></span></i> @Resources.CancelDeleteAll
+            </a>
+        </div>
+    </div>
+}

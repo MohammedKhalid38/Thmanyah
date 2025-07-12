@@ -1,0 +1,85 @@
+﻿@model PostDto
+@{
+    ViewData["Title"] = Model != null && Model.Id != Guid.Empty ? $"{Resources.Edit} {Model.Title.GetValue()}" : Resources.AddNew;
+}
+<div class="card mb-5">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <form asp-action="Editor" method="post" enctype="multipart/form-data">
+                    <div class="mb-2">
+                        <label for="Title" class="fw-bold form-label">@Resources.Title <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" asp-for="Title" />
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+                    <div class="mb-2">
+                        <label for="Description" class="fw-bold form-label">@Resources.Description <span class="text-danger">*</span></label>
+                        <textarea type="text" class="form-control" asp-for="Description"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                    <div class="mb-2">
+                        <label for="Meta" class="fw-bold form-label">@Resources.Meta <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" asp-for="Meta" />
+                        <span asp-validation-for="Meta" class="text-danger"></span>
+                    </div>
+                    <div class="mb-2">
+                        <label for="Link" class="fw-bold form-label">@Resources.Link <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" asp-for="Link" />
+                        <span asp-validation-for="Link" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-2">
+                        <label for="Link" class="fw-bold form-label">@Resources.Image <span class="text-danger">*</span></label>
+                        <input type="hidden" asp-for="Image" />
+                        @if (!string.IsNullOrEmpty(Model?.Image))
+                        {
+                            <img style="height:50px;" src="@Model.Image" />   
+                        }
+                        <input type="file" name="imageFile" class="form-control" />
+                        <span asp-validation-for="Image" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-2">
+                        <label for="PostCategoryId" class="fw-bold form-label">@Resources.Type <span class="text-danger">*</span></label>
+                        <select asp-for="Type" class="form-control select-ajax">
+                            <option value="@PostType.Article">@Resources.Article</option>
+                            <option value="@PostType.Video">@Resources.Video</option>
+                            <option value="@PostType.Podcast">@Resources.Podcast</option>
+                        </select>
+                        <span asp-validation-for="Type" class="text-danger"></span>
+                    </div>
+                    <div class="mb-2">
+                        <label for="PostCategoryId" class="fw-bold form-label">@Resources.Category <span class="text-danger">*</span></label>
+                        <select asp-for="PostCategoryId" class="form-control select-ajax">
+                            @foreach (var item in await _postCategoryService.GetAllAsync())
+                            {
+                                if (item.Id == (Model?.PostCategoryId ?? Guid.Empty))
+                                {
+                                    <option value="@item.Id" selected="selected">@item.Name.GetValue()</option>
+                                }
+                                else
+                                {
+                                    <option value="@item.Id">@item.Name.GetValue()</option>
+                                }
+                            }
+                        </select>
+                        <span asp-validation-for="PostCategoryId" class="text-danger"></span>
+                    </div>
+
+
+                    <div class="mb-2">
+                        <label for="Duration" class="fw-bold form-label">@Resources.Duration <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" asp-for="Duration" />
+                        <span asp-validation-for="Duration" class="text-danger"></span>
+                    </div>
+                    <partial name="Partials/_BaseInputFields" model="Model" />
+                    <div class="mb-2">
+                        <button type="submit" class="btn btn-sm btn-dark">@Resources.SaveChanges</button>
+                        <a asp-action="index" class="btn btn-sm btn-light">@Resources.Back</a>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

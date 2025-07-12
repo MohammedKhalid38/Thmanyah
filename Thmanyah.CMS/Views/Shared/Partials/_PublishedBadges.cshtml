@@ -1,0 +1,18 @@
+﻿@model BaseDto
+
+@if (Model.IsNeedDeleteApprove)
+{
+    <span class="badge badge-danger">@Resources.PendingToDelete</span>
+}
+else
+{
+    if(Model.IsPublished)
+    {
+        <span class="badge badge-success">@Resources.Published</span>
+       
+    }
+    else
+    {
+        <span class="badge badge-warning">@Resources.PendingToUpdate</span>
+    }
+}

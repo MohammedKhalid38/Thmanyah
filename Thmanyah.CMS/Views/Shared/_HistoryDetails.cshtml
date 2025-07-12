@@ -1,0 +1,164 @@
+﻿@model EntityHistoryDetailsViewModel
+@{
+    var current = Model.Current;
+    var version = Model.Version;
+    var properties = current.GetType().GetProperties();
+    var dtoProperties = typeof(BaseDto).GetProperties();
+}
+
+@if(version != null)
+{
+   <div class="container-history">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>@Resources.TheField</th>
+                    <th>@Resources.Value</th>
+                 @*   <th>@Resources.IsDifferent</th>*@
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var prop in properties)
+                {
+                    if (!dtoProperties.Any(a => a.Name == prop.Name))
+                    {
+                        string propertyValue = string.Empty;
+                        string propertyName = Resources.ResourceManager.GetString(prop.Name) ?? prop.Name;
+                        Type propertyType = prop.PropertyType;
+
+                        var currentValue = string.Empty;
+                        var versionValue = string.Empty;
+                        if (propertyType == typeof(List<MultilingualField>))
+                        {
+                            // Multilingual Text
+                            var currentMultilingual = (List<MultilingualField>?)prop.GetValue(current) ?? new List<MultilingualField>();
+                            var versionMultilingual = (List<MultilingualField>?)prop.GetValue(version) ?? new List<MultilingualField>();
+                            if (currentMultilingual != null)
+                                foreach (var item in currentMultilingual.Select((value, i) => new { i, value }))
+                                    currentValue += $"{(item.i != 0 ? "<br>" : string.Empty)} {item.value.Value?.ToString()}";
+
+                            if (versionMultilingual != null)
+                                foreach (var item in versionMultilingual.Select((value, i) => new { i, value }))
+                                    versionValue += $"{(item.i != 0 ? "<br>" : string.Empty)} {item.value.Value?.ToString()}";
+
+                            propertyValue = _htmlProvider.Difference(currentValue, versionValue);
+                        }
+                        else if (propertyType == typeof(Guid) || propertyType == typeof(Guid?))
+                        {
+                            if (!prop.Name.EndsWith("Id"))
+                            {
+                                @* var file = _mediaFileService.GetFileTypeById(Guid.Parse(prop.GetValue(current)?.ToString() ?? Guid.Empty.ToString()));
+                                if (file == MediaFileType.Image)
+                                {
+                                    // Display image thumbnail
+                                    currentValue = _mediaFileService.GetImageThumbnailById(Guid.Parse(prop.GetValue(current)?.ToString() ?? Guid.Empty.ToString()));
+                                    versionValue = _mediaFileService.GetImageThumbnailById(Guid.Parse(prop.GetValue(version)?.ToString() ?? Guid.Empty.ToString()));
+                                    propertyValue = $"<img src='{currentValue}' class='mx-2 border border-4 border-secondary rounded sbc-height-50' />{(currentValue != versionValue ? $"<img src='{versionValue}' class='mx-2 border border-4 border-warning rounded sbc-height-50' />" : string.Empty)}";
+                                }
+                                else
+                                {
+                                    currentValue = _mediaFileService.GetFilePathById(Guid.Parse(prop.GetValue(current)?.ToString() ?? Guid.Empty.ToString()));
+                                    versionValue = _mediaFileService.GetFilePathById(Guid.Parse(prop.GetValue(version)?.ToString() ?? Guid.Empty.ToString()));
+                                    if (file == MediaFileType.Video)
+                                    {
+                                        // Display video preview
+                                        propertyValue = $"<video class='mx-2 border border-4 border-secondary rounded sbc-height-150' controls><source src='{currentValue}' type='video/mp4'></video>" +
+                                        $"{(currentValue != versionValue ? $"<video class='mx-2 border border-4 border-warning rounded sbc-height-150' controls><source src='{versionValue}' type='video/mp4'></video>" : string.Empty)}";
+                                    }
+                                    else
+                                    {
+                                        // Handle other file types
+                                        propertyValue = $"<a href='{currentValue}' ><img src='/assets/media/files/file.png' class='border border-4 border-secondary rounded sbc-defult-file'></a>" +
+                                        $"{(currentValue != versionValue ? $"<a href='{versionValue}'><img src='/assets/media/files/file.png' class='border border-4 border-warning rounded sbc-defult-file'></a>" : string.Empty)}";
+                                    }
+                                }
+ *@
+                            }
+                            else
+                            {
+                                //Ids F.K.
+                                var interfaceType = Type.GetType($"Application.Services.Contracts.I{prop.Name.Replace("Id", string.Empty)}Service, Application");
+                                if (interfaceType != null)
+                                {
+                                    try
+                                    {
+                                        var type = interfaceType.GetInterfaces().FirstOrDefault();
+                                        if (type != null)
+                                        {
+                                            var service = _serviceProvider.GetService(type) as dynamic;
+                                            if (service != null)
+                                            {
+                                                string currentName = service.GetName(Guid.Parse(prop.GetValue(current)?.ToString() ?? Guid.Empty.ToString()));
+                                                string versionName = service.GetName(Guid.Parse(prop.GetValue(current)?.ToString() ?? Guid.Empty.ToString()));
+                                                propertyValue = _htmlProvider.Difference(currentName, versionName);
+                                            }
+                                        }    
+                                    }
+                                    catch { }
+                                }
+                            }
+                        }
+                        else if (propertyType == typeof(bool) || propertyType == typeof(bool?))
+                        {
+                            // Logic
+                            currentValue = bool.Parse(prop.GetValue(current)?.ToString() ?? "False") ? Resources.Yes : Resources.No;
+                            versionValue = bool.Parse(prop.GetValue(version)?.ToString() ?? "False") ? Resources.Yes : Resources.No;
+                            propertyValue = $"<span class='badge badge-secondary'>{currentValue}</span> {(currentValue != versionValue ? "<span class='badge badge-success'>" + versionValue + "</span>" : string.Empty)}";
+                        }
+                        else if (propertyType == typeof(DateTime) || propertyType == typeof(DateTime?))
+                        {
+                            // Date Time
+                            currentValue = prop.GetValue(current)?.ToString() ?? string.Empty;
+                            versionValue = prop.GetValue(version)?.ToString() ?? string.Empty;
+                            propertyValue = $"<span class='badge badge-secondary'>{currentValue}</span> {(currentValue != versionValue ? "<span class='badge badge-success'>" + versionValue + "</span>" : string.Empty)}";
+                        }
+                        else if(propertyType == typeof(string))
+                        {
+                            currentValue = prop.GetValue(current)?.ToString() ?? string.Empty;
+                            versionValue = prop.GetValue(version)?.ToString() ?? string.Empty;
+
+                            if (currentValue.Contains("{\"value\":\""))
+                                currentValue = currentValue.TagifyToString();
+
+                            if (versionValue.Contains("{\"value\":\""))
+                                versionValue = versionValue.TagifyToString();
+
+                            propertyValue = !string.IsNullOrEmpty(versionValue) ? _htmlProvider.Difference(currentValue, versionValue) : string.Empty;
+
+                           
+
+                        }
+                        else
+                        {
+                            continue;
+                        }
+                        bool isDifferent = currentValue != versionValue;
+                        if (isDifferent)
+                        {
+                            <tr>
+                                <td>@propertyName</td>
+                                <td>
+                                    @Html.Raw(propertyValue)
+                                </td>
+                                @*<td>
+                                    @if (isDifferent)
+                                    {
+                                        <span class="badge bad badge-success">@Resources.Yes</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bad badge-secondary">@Resources.No</span>
+                                    }
+                                </td>*@
+                            </tr>
+                        }          
+                    }
+                }
+            </tbody>
+        </table>
+   </div>
+}
+else
+{
+    <partial name="Partials/_NoDataFound" />
+}

@@ -1,0 +1,67 @@
+﻿@model UserDto
+@{
+    //ViewData["Title"] = Model != null && Model.Id != Guid.Empty ? $"{Resources.Edit} {Model.Title.GetValue()}" : Resources.AddNew;
+}
+<div class="card mb-5">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <form asp-action="Editor" method="post">
+                    <input type="hidden" asp-for="Avatar" />
+                    <input type="hidden" asp-for="EmailConfirmed" />
+                    <input type="hidden" asp-for="PhoneNumberConfirmed" />
+                    <input type="hidden" asp-for="TwoFactorEnabled" />
+                    <input type="hidden" asp-for="LockoutEnabled" />
+                    <input type="hidden" asp-for="LockoutEnd" />
+                    <div class="mb-2">
+                        <label for="Name" class="fw-bold form-label">@Resources.FullName</label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="mb-2">
+                        <label for="Email" class="fw-bold form-label">@Resources.Email</label>
+                        <input asp-for="Email" type="email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="mb-2">
+                        <label for="PhoneNumber" class="fw-bold form-label">@Resources.PhoneNumber</label>
+                        <input asp-for="PhoneNumber" class="form-control" />
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+                    <div class="mb-2">
+                        <label for="Password" class="fw-bold form-label">@Resources.Password</label>
+                        <input asp-for="Password" class="form-control" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <div class="mb-2">
+                        <label for="ConfirmPassword" class="fw-bold form-label">@Resources.ConfirmPassword</label>
+                        <input asp-for="ConfirmPassword" class="form-control" />
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    </div>
+                    <div class="mb-2">
+                        <label for="RoleId" class="fw-bold form-label">@Resources.Role</label>
+                        <select asp-for="RoleId" class="form-control select-ajax">
+                        @foreach(var item in await _roleService.GetAllAsync())
+                        {
+                                if (item.Id == (Model.RoleId ?? Guid.Empty))
+                                {
+                                    <option value="@item.Id" selected="selected">@item.Name</option>
+                                }
+                                else
+                                {
+                                    <option value="@item.Id">@item.Name</option>
+                                }
+                            }
+                        </select>
+                        <span asp-validation-for="RoleId" class="text-danger"></span>
+                    </div>
+                    <partial name="Partials/_BaseInputFields" model="Model" />
+                    <div class="mb-2">
+                        <button type="submit" class="btn btn-sm btn-dark">@Resources.SaveChanges</button>
+                        <a asp-action="index" class="btn btn-sm btn-light">@Resources.Back</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

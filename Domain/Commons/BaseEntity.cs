@@ -1,0 +1,28 @@
+﻿using Domain.Commons.Contracts;
+using Localization;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Domain.Commons;
+
+public abstract class BaseEntity : IBaseEntity
+{
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    [Key]
+    public Guid Id { get; set; }
+    [Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "ThisFieldIsRequired")]
+    public bool IsDeleted { get; set; }
+    public Guid? CreatedBy { get; set; }
+    public int Sort { get; set; }
+    [Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "ThisFieldIsRequired")]
+    public DateTime CreatedAt { get; set; }
+    public Guid? ModifiedBy { get; set; }
+    public DateTime? ModifiedAt { get; set; }
+    public bool IsPublished { get; set; }
+    public DateTime? PublishedAt { get; set; }
+    public Guid? PublishedBy { get; set; }
+    public DateTime? DeletedAt { get; set; }
+    public Guid? DeletedBy { get; set; }
+    public bool IsNeedDeleteApprove { get; set; }
+    public bool IsActive { get; set; }
+}
